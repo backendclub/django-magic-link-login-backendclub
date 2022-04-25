@@ -1,0 +1,13 @@
+<!doctype html>
+<head>
+  <title>Magic link demo</title>
+</head>
+<body>
+  <h1>Enter your email to login</h1>
+  <form method="POST">
+    {% csrf_token %}
+    <input type="email" name="email" required />
+    <button type="submit">Submit</button>
+  </form>
+  <p>(Check your console to see the email)</p>
+</body>

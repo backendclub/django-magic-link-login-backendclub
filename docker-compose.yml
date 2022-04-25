@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  magiclink:
+    image: magiclink
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8000:8000
+    environment:
+      - DB_NAME=testproject
+      - DB_USER=testproject
+      - DB_PASSWORD=hello
+      - DB_PORT=5432
+      - DB_HOST=postgresdb
+  postgresdb:
+    image: postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=testproject
+      - POSTGRES_USER=testproject
+      - POSTGRES_PASSWORD=hello
