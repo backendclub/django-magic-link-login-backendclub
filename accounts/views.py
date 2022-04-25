@@ -1,4 +1,5 @@
 import base64
+from urllib.parse import urlencode, unquote_plus
 from django.core import signing
 from django.core.mail import send_mail
 from django.urls import reverse
@@ -68,7 +69,12 @@ def home(request: HttpRequest):
             random_string = get_random_string(16)
             request.session["login_state"] = random_string
             token = signing.dumps({"email": email, "login_state": random_string})
-            magic_link = request.build_absolute_uri(location=reverse("auth-magic-link")) + f"?token={token}"
+            qs = urlencode({"token": token})
+
+            magic_link = request.build_absolute_uri(
+                location=reverse("auth-magic-link"),
+            ) + f"?{qs}"
+
             send_mail(
                 "Login link",
                 f'Click <a href="{magic_link}">here</a> to login',
