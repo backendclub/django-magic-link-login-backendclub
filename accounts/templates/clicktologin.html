@@ -1,0 +1,11 @@
+<!doctype html>
+<head>
+  <title>Click to login</title>
+</head>
+<body>
+  <p>Click button to login</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Click to login</button>
+  </form>
+</body>

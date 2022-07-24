@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpRequest
 from django.contrib.auth import login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 
@@ -15,8 +15,10 @@ from django.utils.crypto import get_random_string
 User = get_user_model()
 
 
-@require_GET
 def magic_link_login(request):
+    if request.method == "GET":
+        return render(request, "clicktologin.html")
+
     token = request.GET.get("token")
     if not token:
         # Go back to main page; alternatively show an error page
