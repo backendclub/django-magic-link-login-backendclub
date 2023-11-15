@@ -34,14 +34,11 @@ def magic_link_login(request):
         # user does not exist or is inactive
         return redirect("home")
 
-    # validate token and check for expiry; we want to make sure
+    # we want to make sure
     # it's only been generated since the last login
     if user.last_login:
-        delta = timezone.now() - user.last_login
-        try:
-            data = signing.loads(token, max_age=delta)
-        except signing.SignatureExpired:
-            # signature expired, redirect to main page or show error page.
+        token_timestamp = signing.b62_decode(token.split(":")[1])
+        if token_timestamp < user.last_login.timestamp():
             return redirect("home")
 
     login_state = data.get("login_state")

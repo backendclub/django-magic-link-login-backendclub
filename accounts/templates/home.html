@@ -10,4 +10,11 @@
     <button type="submit">Submit</button>
   </form>
   <p>(Check your console to see the email)</p>
+
+  {% if user.is_authenticated %}
+    <p>Currently logged in as {{ user }}</p>
+    <p>Click <a href="{% url 'logout-view' %}">here to logout</a></p>
+  {% else %}
+    <p>Not currently logged in</p>
+  {% endif %}
 </body>
